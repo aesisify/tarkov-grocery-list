@@ -1,5 +1,5 @@
 let allItems = [];
-let selectedItems = new Set();
+let selectedItems = new Map();
 
 const STORAGE_KEY = "grocery-list-items";
 
@@ -22,12 +22,32 @@ const Toast = Swal.mixin({
 });
 
 function saveToLocalStorage() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(selectedItems)));
+  const itemsArray = Array.from(selectedItems.entries()).map(([id, count]) => ({
+    id,
+    count,
+  }));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(itemsArray));
 }
 
 function loadFromLocalStorage() {
   const saved = localStorage.getItem(STORAGE_KEY);
-  return saved ? new Set(JSON.parse(saved)) : new Set();
+  if (!saved) return new Map();
+  
+  try {
+    const parsed = JSON.parse(saved);
+    
+    if (Array.isArray(parsed) && (parsed.length === 0 || typeof parsed[0] === 'string')) {
+      const newMap = new Map();
+      parsed.forEach(id => newMap.set(id, 1));
+      return newMap;
+    }
+    
+    return new Map(parsed.map(item => [item.id, item.count]));
+  } catch (e) {
+    console.error('Corrupt data found in localStorage, clearing...', e);
+    localStorage.removeItem(STORAGE_KEY);
+    return new Map();
+  }
 }
 
 async function getItems() {
@@ -183,6 +203,7 @@ function createSearchResults(searchTerm) {
   resultsDiv.classList.remove("hidden");
 
   results.forEach((item) => {
+    const isInList = selectedItems.has(item.id);
     const div = document.createElement("div");
     div.className = "p-1 hover:bg-gray-700 cursor-pointer";
     div.innerHTML = `
@@ -193,12 +214,25 @@ function createSearchResults(searchTerm) {
                 <div class="text-gray-100">
                   <span>${item.name}</span>
                   <span class="text-gray-400 text-xs">${item.width}x${item.height}</span>
+                  ${isInList ? '<span class="text-xs text-purple-400">(in list)</span>' : ''}
                 </div>
                 <div class="text-gray-400 text-xs">${formatTraderPrices(item)}</div>
               </div>
             </div>
           `;
-    div.onclick = () => addItem(item);
+    div.onclick = () => {
+      if (isInList) {
+        updateItemCount(item.id, 1);
+        document.getElementById("search").value = "";
+        document.getElementById("search-results").classList.add("hidden");
+        Toast.fire({
+          icon: "success",
+          title: "Added 1 more to list",
+        });
+      } else {
+        addItem(item);
+      }
+    };
     resultsDiv.appendChild(div);
   });
 }
@@ -206,6 +240,8 @@ function createSearchResults(searchTerm) {
 function addItemToUI(item) {
   const selectedList = document.getElementById("selected-items");
   const div = document.createElement("div");
+  const itemCount = selectedItems.get(item.id) || 1;
+  
   div.className =
     "flex items-center gap-3 bg-gray-800 p-1 rounded-lg border border-gray-700";
   div.innerHTML = `
@@ -218,17 +254,58 @@ function addItemToUI(item) {
             </div>
             <div class="text-gray-400 text-sm">${formatTraderPrices(item)}</div>
           </div>
+          <div class="flex items-center gap-2 mr-2">
+            <button onclick="updateItemCount('${item.id}', -1)" class="text-gray-400 hover:text-gray-200 hover:scale-110 transition-all">➖</button>
+            <span class="text-gray-200 min-w-[2ch] text-center select-none">${itemCount}</span>
+            <button onclick="updateItemCount('${item.id}', 1)" class="text-gray-400 hover:text-gray-200 hover:scale-110 transition-all">➕</button>
+          </div>
           <button onclick="removeItem('${item.id}')" class="text-red-400 hover:scale-110 transition-all mx-2">
             <span>🚫</span>
           </button>
         `;
   selectedList.appendChild(div);
+  updateEmptyListView();
+}
+
+function updateItemCount(itemId, delta) {
+  const currentCount = selectedItems.get(itemId) || 1;
+  const newCount = Math.max(1, currentCount + delta);
+  selectedItems.set(itemId, newCount);
+  
+  const selectedList = document.getElementById("selected-items");
+  const items = selectedList.children;
+  for (let item of items) {
+    if (item.querySelector(`img`).src.includes(itemId)) {
+      const countSpan = item.querySelector('.text-gray-200');
+      countSpan.textContent = newCount;
+      break;
+    }
+  }
+  
+  saveToLocalStorage();
+  sortItems();
+}
+
+function updateEmptyListView() {
+  const emptyList = document.getElementById('empty-list');
+  const selectedList = document.getElementById('selected-items');
+  
+  if (selectedItems.size === 0) {
+    emptyList.classList.remove('hidden');
+    selectedList.classList.add('hidden');
+  } else {
+    emptyList.classList.add('hidden');
+    selectedList.classList.remove('hidden');
+  }
 }
 
 function addItem(item, saveToStorage = true) {
-  if (selectedItems.has(item.id)) return;
+  if (selectedItems.has(item.id)) {
+    updateItemCount(item.id, 1);
+    return;
+  }
 
-  selectedItems.add(item.id);
+  selectedItems.set(item.id, 1);
   if (saveToStorage) {
     saveToLocalStorage();
   }
@@ -256,6 +333,8 @@ function removeItem(itemId) {
       break;
     }
   }
+  
+  updateEmptyListView();
 
   Toast.fire({
     icon: "success",
@@ -339,7 +418,7 @@ function sortItems() {
     const response = await getItems();
     allItems = response.data.items;
 
-    selectedItems = new Set();
+    selectedItems = new Map();
 
     document.getElementById("loading").classList.add("hidden");
     document.getElementById("main-content").classList.remove("hidden");
@@ -362,14 +441,17 @@ function sortItems() {
     });
 
     const savedItemIds = loadFromLocalStorage();
-    const savedItems = allItems.filter((item) => savedItemIds.has(item.id));
-
     document.getElementById("selected-items").innerHTML = "";
 
-    savedItems.forEach((item) => {
-      selectedItems.add(item.id);
-      addItemToUI(item);
+    savedItemIds.forEach((count, id) => {
+      const item = allItems.find(item => item.id === id);
+      if (item) {
+        selectedItems.set(id, count);
+        addItemToUI(item);
+      }
     });
+
+    updateEmptyListView();
 
     const sort = localStorage.getItem(SORT_KEY);
 

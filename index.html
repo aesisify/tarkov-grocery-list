@@ -39,7 +39,16 @@
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛒</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet" />
     <link rel="stylesheet" href="assets/main.css" />
+
+    <script src="assets/libs/htmx.min.js"></script>
+    <script src="assets/libs/tailwind.min.js"></script>
+    <script src="assets/libs/sweetalert2.min.js"></script>
   </head>
   <body class="bg-gray-900 text-gray-100 py-2">
     <div class="max-w-2xl mx-auto">
@@ -80,6 +89,11 @@
           </div>
         </div>
         <div id="selected-items" class="space-y-2"></div>
+        <div id="empty-list" class="text-center py-8 text-gray-400 hidden">
+          <div class="text-4xl mb-4">🛒</div>
+          <p class="text-lg">Your shopping list is empty</p>
+          <p class="text-sm">Start by searching for items above</p>
+        </div>
       </div>
       <div class="text-gray-400 text-sm text-center mt-2">
         Coded with ❤️ by
@@ -97,9 +111,6 @@
       </div>
     </div>
 
-    <script src="assets/libs/htmx.min.js"></script>
-    <script src="assets/libs/tailwind.min.js"></script>
-    <script src="assets/libs/sweetalert2.min.js"></script>
     <script src="assets/main.js"></script>
   </body>
 </html>
