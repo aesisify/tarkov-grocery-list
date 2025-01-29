@@ -3,12 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tarkov Grocery List</title>
+
+    <meta
+      name="description"
+      content="A simple shopping list tool for Escape from Tarkov players. Track item prices, find the best traders, and organize your shopping runs efficiently." />
+    <meta
+      name="keywords"
+      content="Escape from Tarkov, EFT, Tarkov shopping list, Tarkov prices, Tarkov traders, Tarkov items, Tarkov market, Tarkov tool" />
+    <meta name="author" content="Oğuz 'Aesisify' Gergin" />
+
+    <meta
+      property="og:title"
+      content="Tarkov Grocery List - Shopping List Tool for EFT" />
+    <meta
+      property="og:description"
+      content="Track Tarkov item prices, find the best traders, and organize your shopping runs efficiently with this simple shopping list tool." />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="Tarkov Grocery List - Shopping List Tool for EFT" />
+    <meta
+      name="twitter:description"
+      content="Track Tarkov item prices, find the best traders, and organize your shopping runs efficiently with this simple shopping list tool." />
+
+    <meta name="robots" content="index, follow" />
+
+    <meta name="theme-color" content="#111827" />
+
+    <title>
+      Tarkov Grocery List - Shopping List Tool for Escape from Tarkov
+    </title>
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛒</text></svg>" />
-      <script src="assets/libs/tailwind.min.js"></script>
-      <script src="assets/libs/htmx.min.js"></script>
+    <script src="assets/libs/tailwind.min.js"></script>
+    <script src="assets/libs/htmx.min.js"></script>
   </head>
   <body class="bg-gray-900 text-gray-100 py-2">
     <div class="max-w-2xl mx-auto">
@@ -47,10 +78,8 @@
               <option value="sell-desc">Sell Price (High to Low)</option>
             </select>
           </div>
-
         </div>
-        <div id="selected-items" class="space-y-2">
-        </div>
+        <div id="selected-items" class="space-y-2"></div>
       </div>
       <div class="text-gray-400 text-sm text-center mt-2">
         Coded with ❤️ by
