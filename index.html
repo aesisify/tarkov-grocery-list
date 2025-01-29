@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tarkov Grocery List</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛒</text></svg>" />
+      <script src="assets/libs/tailwind.min.js"></script>
+      <script src="assets/libs/htmx.min.js"></script>
+  </head>
+  <body class="bg-gray-900 text-gray-100 py-2">
+    <div class="max-w-2xl mx-auto">
+      <div class="flex justify-between items-center mb-2 select-none">
+        <h1 class="text-2xl font-bold text-gray-100">🛒Tarkov Grocery List</h1>
+      </div>
+
+      <div id="loading" class="flex justify-center items-center py-12">
+        <div
+          class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+
+      <div id="main-content" class="hidden">
+        <div class="flex gap-2">
+          <div class="relative mb-2 flex-grow">
+            <input
+              type="text"
+              id="search"
+              class="w-full p-2 text-sm rounded-lg bg-gray-700 text-gray-100 placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-gray-700 focus:border-transparent"
+              autocomplete="off"
+              placeholder="Search items..." />
+            <div
+              id="search-results"
+              class="absolute w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-xl max-h-60 overflow-y-auto hidden divide-y divide-gray-700"></div>
+          </div>
+
+          <div class="mb-2">
+            <select
+              id="sort-select"
+              class="w-full p-2 text-sm rounded-lg bg-gray-700 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <option value="name-asc">Name (A-Z)</option>
+              <option value="name-desc">Name (Z-A)</option>
+              <option value="buy-asc">Buy Price (Low to High)</option>
+              <option value="buy-desc">Buy Price (High to Low)</option>
+              <option value="sell-asc">Sell Price (Low to High)</option>
+              <option value="sell-desc">Sell Price (High to Low)</option>
+            </select>
+          </div>
+
+        </div>
+        <div id="selected-items" class="space-y-2">
+        </div>
+      </div>
+      <div class="text-gray-400 text-sm text-center mt-2">
+        Coded with ❤️ by
+        <a
+          href="https://github.com/aesisify"
+          class="text-purple-400 hover:text-purple-300 transition-colors">
+          Oğuz "Aesisify" Gergin
+        </a>
+        using data from
+        <a
+          href="https://tarkov.dev"
+          class="text-purple-400 hover:text-purple-300 transition-colors">
+          tarkov.dev
+        </a>
+      </div>
+    </div>
+
+    <script src="assets/libs/sweetalert2.min.js"></script>
+    <script src="assets/main.js"></script>
+  </body>
+</html>
