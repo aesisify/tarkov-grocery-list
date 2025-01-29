@@ -2,6 +2,8 @@
 
 Because who doesn't need another way to organize their virtual shopping spree in a war-torn Russian city?
 
+## [Live Demo](https://aesisify.github.io/tarkov-grocery-list/)
+
 ## What is this?
 
 A hastily cobbled together shopping list for Escape from Tarkov items that I wrote in approximately the time it takes to cook instant ramen. It uses the amazing [tarkov.dev](https://tarkov.dev) API because those folks are the real MVPs keeping the Tarkov community well-fed with data.
@@ -23,6 +25,9 @@ Because spreadsheets are so 2023, and I needed something to do while waiting for
 ## Credits
 
 - [tarkov.dev](https://tarkov.dev) - The absolute legends providing the API that makes this possible
+- [htmx](https://htmx.org) - The library that makes this possible
+- [Tailwind CSS](https://tailwindcss.com) - The library that makes this pretty
+- [SweetAlert2](https://sweetalert2.github.io) - The library that makes this pop
 - My lack of impulse control - For deciding to build this instead of actually playing the game
 
 ## License
