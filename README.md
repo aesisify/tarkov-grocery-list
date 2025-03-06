@@ -1,6 +1,5 @@
 [![Tarkov.dev](https://img.shields.io/badge/Tarkov.dev-000000?style=for-the-badge)](https://tarkov.dev)
 [![MIT License](https://img.shields.io/badge/MIT-green?style=for-the-badge)](https://github.com/aesisify/tarkov-grocery-list/blob/master/LICENSE)
-[![HTMX](https://img.shields.io/badge/%3C/%3E%20htmx-3D72D7?style=for-the-badge&logo=mysl&logoColor=white)](https://htmx.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![SweetAlert2](https://img.shields.io/badge/SweetAlert2-FF6550?style=for-the-badge)](https://sweetalert2.github.io)
 
@@ -22,7 +21,6 @@ A hastily cobbled together shopping list for Escape from Tarkov items that I wro
 - 📊 Sort items by various criteria
 - 💾 Local storage so your list survives rage quits
 - 🎨 Dark mode because we're not savages
-- 🚀 Built with HTMX because why not
 
 ## Why?
 
@@ -31,7 +29,6 @@ Because spreadsheets are so 2023, and I needed something to do while waiting for
 ## Credits
 
 - [tarkov.dev](https://tarkov.dev) - The absolute legends providing the API that makes this possible
-- [htmx](https://htmx.org) - The library that makes this happen
 - [Tailwind CSS](https://tailwindcss.com) - The library that makes this pretty
 - [SweetAlert2](https://sweetalert2.github.io) - The library that makes this pop
 - My lack of impulse control - For deciding to build this instead of actually playing the game
